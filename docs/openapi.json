@@ -1,0 +1,115 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Travel Insurance Quote MVP API",
+    "version": "0.2.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "API health check",
+        "responses": {
+          "200": { "description": "Service is healthy" },
+          "503": { "description": "Service is degraded or down" }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "summary": "Authenticate an operator",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": { "type": "string", "format": "email" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Access token and user summary" },
+          "401": { "description": "Invalid credentials" }
+        }
+      }
+    },
+    "/api/v1/quote-requests": {
+      "get": {
+        "summary": "List quote requests",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "status", "in": "query", "schema": { "type": "string" } },
+          { "name": "carrierId", "in": "query", "schema": { "type": "string" } },
+          { "name": "createdFrom", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "createdTo", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "minimum": 1, "maximum": 100 } },
+          { "name": "offset", "in": "query", "schema": { "type": "integer", "minimum": 0 } }
+        ],
+        "responses": {
+          "200": { "description": "Quote request list" },
+          "401": { "description": "Missing or invalid token" }
+        }
+      },
+      "post": {
+        "summary": "Create a quote request",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "202": { "description": "Quote request queued" },
+          "400": { "description": "Validation error" },
+          "401": { "description": "Missing or invalid token" },
+          "403": { "description": "Insufficient permissions" }
+        }
+      }
+    },
+    "/api/v1/quote-requests/{id}": {
+      "get": {
+        "summary": "Get a quote request",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Quote request detail" },
+          "404": { "description": "Quote request not found" }
+        }
+      }
+    },
+    "/api/v1/quote-requests/{id}/cancel": {
+      "post": {
+        "summary": "Cancel a quote request",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": { "description": "Quote request cancelled" },
+          "403": { "description": "Insufficient permissions" }
+        }
+      }
+    },
+    "/api/v1/quote-requests/{id}/carriers/{carrierId}/retry": {
+      "post": {
+        "summary": "Retry a failed carrier execution",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "carrierId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "202": { "description": "Retry queued" },
+          "409": { "description": "Execution is not retryable" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

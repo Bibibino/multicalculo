@@ -1,0 +1,36 @@
+{
+  "name": "travel-insurance-quote",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "typecheck": "DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@localhost:5432/travel_quotes} XDG_CACHE_HOME=/tmp/.cache prisma generate && tsc -b tsconfig.build.json",
+    "test": "PLAYWRIGHT_BROWSERS_PATH=${PLAYWRIGHT_BROWSERS_PATH:-/tmp/ms-playwright} vitest run",
+    "test:e2e": "playwright test",
+    "prisma:generate": "DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@localhost:5432/travel_quotes} XDG_CACHE_HOME=/tmp/.cache prisma generate",
+    "db:migrate": "DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@localhost:5432/travel_quotes} XDG_CACHE_HOME=/tmp/.cache prisma migrate deploy",
+    "db:seed": "DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@localhost:5432/travel_quotes} tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.2.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "@playwright/test": "^1.49.1",
+    "@types/node": "^22.10.5",
+    "eslint": "^9.18.0",
+    "prettier": "^3.4.2",
+    "prisma": "^6.2.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.20.0",
+    "vitest": "^2.1.8"
+  }
+}

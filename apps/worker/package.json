@@ -1,0 +1,30 @@
+{
+  "name": "@travel-quote/worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc -b",
+    "typecheck": "tsc -b --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@travel-quote/browser-core": "workspace:*",
+    "@travel-quote/carrier-a": "workspace:*",
+    "@travel-quote/carrier-b": "workspace:*",
+    "@travel-quote/carrier-c": "workspace:*",
+    "@travel-quote/carrier-sdk": "workspace:*",
+    "@travel-quote/database": "workspace:*",
+    "@travel-quote/domain": "workspace:*",
+    "@travel-quote/observability": "workspace:*",
+    "@travel-quote/queue": "workspace:*",
+    "@travel-quote/test-fixtures": "workspace:*",
+    "bullmq": "^5.34.2",
+    "fastify": "^5.2.1",
+    "ioredis": "^5.4.2"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2"
+  }
+}

@@ -1,0 +1,58 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+**/dist/
+.next/
+**/.next/
+out/
+build/
+prisma/generated/
+
+# TypeScript
+*.tsbuildinfo
+
+# Tests and coverage
+coverage/
+**/coverage/
+test-results/
+playwright-report/
+blob-report/
+*.lcov
+junit*.xml
+
+# Runtime artifacts
+var/artifacts/*
+!var/artifacts/.gitkeep
+
+# Environment and local secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local caches
+.cache/
+**/.cache/
+.turbo/
+.eslintcache
+
+# Docker/local overrides
+docker-compose.override.yml
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
